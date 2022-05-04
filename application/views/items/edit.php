@@ -43,18 +43,6 @@
             <div class="list-group-item">
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="form-label">Tier</label>
-                    </div>
-
-                    <div class="col-md-8">
-                        <input type="text" name="tier" class="form-control" value="<?= isset($item->tier) ? $item->tier : '0' ?>">
-                    </div>
-                </div>
-            </div>
-
-            <div class="list-group-item">
-                <div class="row">
-                    <div class="col-md-4">
                         <label class="form-label">Name</label>
                     </div>
 
@@ -79,6 +67,30 @@
             <div class="list-group-item">
                 <div class="row">
                     <div class="col-md-4">
+                        <label class="form-label">Tier</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="text" name="tier" class="form-control" value="<?= isset($item->tier) ? $item->tier : '' ?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">Level</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="text" name="level" class="form-control" value="<?= isset($item->level) ? $item->level : '' ?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
                         <label class="form-label">Weight</label>
                     </div>
 
@@ -88,7 +100,7 @@
                 </div>
             </div>
 
-            <?php if ($tag == 'armor') { ?>
+            <?php if ($tag == 'armor' || $tag == 'weapon') { ?>
                 <div class="list-group-item">
                     <div class="row">
                         <div class="col-md-4">
@@ -97,7 +109,7 @@
 
                         <div class="col-md-8">
                             <select name="category" class="form-control">
-                                <?php foreach (getItemCategories()[$tag] as $row) { ?>
+                                <?php foreach (getItemCategories()['armor'] as $row) { ?>
                                     <option value="<?= $row ?>" <?= isset($item->category) && $item->category == $row ? 'selected' : '' ?>><?= $row ?></option>
                                 <?php } ?>
                             </select>
@@ -153,48 +165,43 @@
                 </div>
             <?php } ?>
 
-            <?php if ($tag != 'resource') { ?>
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label">Crafting</label>
-                        </div>
+            <div class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">Crafting</label>
+                    </div>
 
-                        <div class="col-md-8">
-                            <div id="resources">
-                                <?php if (isset($item->crafting) && isset($item->crafting->ids)) { ?>
-                                    <?php $i = 0; ?>
-                                    <?php foreach ($item->crafting->ids as $row) { ?>
-                                        <?php $id = uuid() ?>
-                                        <div class="mb-2" id="<?= $id ?>">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <select name="crafting[ids][]" class="form-control">
-                                                        <?php foreach ($resources as $resource) { ?>
-                                                            <option value="<?= $resource->_id ?>" <?= $row == $resource->_id ? 'selected' : '' ?>><?= $resource->name ?></option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <input type="text" name="crafting[tier][]" value="<?= $item->crafting->tier[$i] ?>" class="form-control" placeholder="Tier">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <input type="text" name="crafting[value][]" value="<?= $item->crafting->value[$i] ?>" class="form-control" placeholder="Number">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <button type="button" class="btn btn-danger form-control" onClick="onRemoveResource('<?= $id ?>')">X</button>
-                                                </div>
+                    <div class="col-md-8">
+                        <div id="resources">
+                            <?php if (isset($item->crafting) && isset($item->crafting->ids)) { ?>
+                                <?php $i = 0; ?>
+                                <?php foreach ($item->crafting->ids as $row) { ?>
+                                    <?php $id = uuid() ?>
+                                    <div class="mb-2" id="<?= $id ?>">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <select name="crafting[ids][]" class="form-control">
+                                                    <?php foreach ($resources as $resource) { ?>
+                                                        <option value="<?= $resource->_id ?>" <?= $row == $resource->_id ? 'selected' : '' ?>><?= $resource->name ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" name="crafting[value][]" value="<?= $item->crafting->value[$i] ?>" class="form-control" placeholder="Number">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-danger form-control" onClick="onRemoveResource('<?= $id ?>')">X</button>
                                             </div>
                                         </div>
-                                        <?php $i++; ?>
-                                    <?php } ?>
+                                    </div>
+                                    <?php $i++; ?>
                                 <?php } ?>
-                            </div>
-                            <button type="button" class="btn btn-light form-control" onClick="onAddResource()">Add resource</button>
+                            <?php } ?>
                         </div>
+                        <button type="button" class="btn btn-light form-control" onClick="onAddResource()">Add resource</button>
                     </div>
                 </div>
-            <?php } ?>
+            </div>
 
             <div class="list-group-item">
                 <div class="row">
@@ -230,7 +237,7 @@
         for (var i = 0; i < resources.length; i++) {
             opts += '<option value="' + resources[i]._id + '">' + resources[i].name + '</option>';
         }
-        $('#resources').append('<div class="mb-2" id="' + added + '"><div class="row"><div class="col-md-6"><select name="crafting[ids][]" class="form-control">' + opts + '</select></div><div class="col-md-2"><input type="text" name="crafting[tier][]" class="form-control" placeholder="Tier"></div><div class="col-md-2"><input type="text" name="crafting[value][]" class="form-control" placeholder="Number"></div> <div class="col-md-2"> <button type="button" class="btn btn-danger form-control" onClick="onRemoveResource(' + added + ')">X</button> </div></div></div>');
+        $('#resources').append('<div class="mb-2" id="' + added + '"><div class="row"><div class="col-md-6"><select name="crafting[ids][]" class="form-control">' + opts + '</select></div><div class="col-md-4"><input type="text" name="crafting[value][]" class="form-control" placeholder="Number"></div> <div class="col-md-2"> <button type="button" class="btn btn-danger form-control" onClick="onRemoveResource(' + added + ')">X</button> </div></div></div>');
         setTimeout(() => {
             $('.ui.dropdown').dropdown();
         }, 250);

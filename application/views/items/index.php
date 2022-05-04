@@ -58,7 +58,8 @@
                 <div class="card-header">
                     <span class="badge bg-success"><?= $item['tag'] ?></span>
                     <span class="badge bg-secondary"><?= $item['type'] ?></span>
-                    <?= isset($item->tier) ? '<span class="badge bg-danger">' . $item->tier . '</span>' : '' ?>
+                    <!-- <?= isset($item->tier) ? '<span class="badge bg-info">' . $item->tier . '</span>' : '' ?> -->
+                    <?= isset($item->level) ? '<span class="badge bg-danger">L:' . $item->level . '</span>' : '' ?>
                     <?= isset($item->category) ? '<span class="badge bg-secondary">' . $item->category . '</span>' : '' ?>
                     <?= $item->name != 'No name' ? '' : '<span class="badge bg-warning">Noname</span>' ?>
                     <?= $item->enabled ? '' : '<span class="badge bg-warning">Disabled</span>' ?>

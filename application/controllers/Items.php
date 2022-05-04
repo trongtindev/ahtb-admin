@@ -21,7 +21,7 @@ class Items extends CI_Controller
 			$data['tag'] = $this->input->get('tag', true);
 		}
 		$data['body'] = $this->Items_Edit->submit($id);
-		$data['resources'] = $this->db->data_items->find(['tag' => 'resource'])->toArray();
+		$data['resources'] = $this->db->data_items->find(['tag' => 'resource'], ['sort' => ['name' => 1]])->toArray();
 		$data['item'] = $this->db->data_items->findOne(['_id' => $id]);
 		if ($data['item'] == null) {
 			redirect('/items');
@@ -74,7 +74,8 @@ class Items extends CI_Controller
 		$this->load->view('main', $data);
 	}
 
-	public function clean(){
+	public function clean()
+	{
 		$this->load->model('Items_Clean');
 		$this->Items_Clean->submit();
 	}

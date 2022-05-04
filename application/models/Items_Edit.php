@@ -14,9 +14,10 @@ class Items_Edit extends CI_Model
         $tag = input('tag');
         $name = input('name');
         $type = input('type');
-        $tier = input('tier');
-        $weigth = input('weigth');
+        $weight = input('weight');
         $setId = input('setId');
+        $tier = input('tier');
+        $level = input('level');
         $category = input('category');
         $specs = isset($_POST['specs']) ? $_POST['specs'] : [];
         $enabled = input('enabled');
@@ -64,10 +65,11 @@ class Items_Edit extends CI_Model
                 'tag' => $tag,
                 'name' => $name == null ? 'No name' : $name,
                 'type' => $type,
-                'tier' => $tier,
                 'specs' => $specs,
                 'setId' => $setId,
-                'weigth' => $weigth,
+                'weight' => $weight,
+                'tier' => $tier,
+                'level' => $level,
                 'enabled' => $enabled == 'yes' ? true : false,
                 'updatedAt' => time(),
                 'crafting' => $crafting,

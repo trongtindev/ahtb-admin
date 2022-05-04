@@ -1,5 +1,5 @@
 <?php
-if ($_SERVER['REMOTE_ADDR'] != '171.241.44.2') die($_SERVER['REMOTE_ADDR']);
+if ($_SERVER['REMOTE_ADDR'] != '171.241.34.83') die($_SERVER['REMOTE_ADDR']);
 
 /**
  * CodeIgniter

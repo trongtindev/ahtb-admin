@@ -29,7 +29,10 @@ function uuid()
 function input($name, $options = [])
 {
     $ci = &get_instance();
-    $value = $ci->input->post($name, true);
+    $value = $ci->input->get($name, true);
+    if ($value == null) {
+        $value = $ci->input->post($name, true);
+    }
 
     if (isset($options['type']) && $options['type'] == 'number') {
         if ($value == null) $value = 0;
@@ -44,21 +47,23 @@ function currentUrl()
 
 function getItemTags()
 {
-    return ['armor', 'weapon', 'offHand', 'resource', 'food', 'potion', 'recipe', 'quest', 'chest'];
+    return ['armor', 'weapon', 'offHand', 'resource', 'food', 'potion', 'recipe', 'quest', 'chest', 'jewel', 'other'];
 }
 
 function getItemTypes()
 {
     return [
         'armor' => ['head', 'body', 'feet', 'arm'],
-        'weapon' => ['axe', 'bow', 'wand', 'sword', 'pickaxe', 'sickle'],
+        'weapon' => ['axe', 'bow', 'wand', 'sword', 'pickaxe', 'sickle', 'hammer'],
         'offHand' => ['shield'],
-        'resource' => ['wood', 'stone', 'hide', 'ore', 'fiber', 'copper'],
+        'resource' => ['wood', 'stone', 'hide', 'ore', 'fiber'],
         'food' => ['Meat', 'Fish', 'Fruit', 'Vegetable'],
-        'potion' => ['HP', 'MP'],
+        'potion' => ['hp', 'mp'],
         'recipe' => ['armor', 'axe', 'bow', 'shield', 'sword', 'wand', 'potion', 'food'],
         'quest' => [],
-        'chest' => []
+        'chest' => [],
+        'jewel' => ['blue', 'red', 'green', 'purple'],
+        'other' => []
     ];
 }
 
@@ -66,6 +71,10 @@ function getItemSpecsField()
 {
     return [
         'armor' => [
+            [
+                'type' => 'number',
+                'name' => 'speed',
+            ],
             [
                 'type' => 'number',
                 'name' => 'armor',
@@ -94,6 +103,10 @@ function getItemSpecsField()
                 'type' => 'number',
                 'name' => 'magicalResistance',
             ],
+            [
+                'type' => 'number',
+                'name' => 'critical',
+            ],
         ],
         'weapon' => [
             [
@@ -115,6 +128,10 @@ function getItemSpecsField()
             [
                 'type' => 'number',
                 'name' => 'critical',
+            ],
+            [
+                'type' => 'number',
+                'name' => 'range',
             ],
         ],
         'offHand' => [
@@ -170,7 +187,26 @@ function getItemSpecsField()
         ],
         'recipe' => [],
         'quest' => [],
-        'chest' => []
+        'chest' => [],
+        'jewel' => [
+            [
+                'type' => 'number',
+                'name' => 'critical',
+            ],
+            [
+                'type' => 'number',
+                'name' => 'hpBonus',
+            ],
+            [
+                'type' => 'number',
+                'name' => 'mpBonus',
+            ],
+            [
+                'type' => 'number',
+                'name' => 'damageBonus',
+            ],
+        ],
+        'other' => []
     ];
 }
 
